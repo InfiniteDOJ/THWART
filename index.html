@@ -220,7 +220,7 @@
         </div>
     </section>
 
-    <!-- NEW SHOWCASE SECTION -->
+    <!-- SHOWCASE SECTION -->
     <section id="showcase" class="py-20 relative bg-thwart-card/20 border-t border-thwart-border/40">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
@@ -360,20 +360,20 @@ engine.<span class="text-yellow-300">attach_loop</span>(broadcast_positions, int
             <div class="space-y-3 max-w-xl mx-auto">
                 <h2 class="text-xs font-bold text-thwart-pink uppercase tracking-widest font-mono">Secure Gateway</h2>
                 <h3 class="text-3xl sm:text-4xl font-black tracking-tight">YOUR ACCESS COMBINATION CODE</h3>
-                <p class="text-slate-400 text-sm">Below is your assigned single set combination code for engine access. Keep this code secure and do not share it.</p>
+                <p class="text-slate-400 text-sm">Below is your assigned access code for engine entry. This code automatically rotates every 5 minutes.</p>
             </div>
 
             <div class="glass-card p-8 rounded-2xl border-2 border-thwart-pink max-w-md mx-auto pink-glow-lg">
                 <div class="text-xs font-mono text-slate-400 uppercase tracking-widest mb-2">Assigned Access Key</div>
                 <div id="generated-code-display" class="text-5xl font-mono font-black tracking-widest text-thwart-pink py-4">
-                    <!-- Dynamic single code gets injected here -->
+                    <!-- Dynamic code injected here -->
                 </div>
-                <p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Valid for one-time initialization</p>
+                <p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-clock text-thwart-pink mr-1"></i> Expires in <span id="timer-countdown">5:00</span></p>
             </div>
 
             <div class="flex justify-center space-x-4">
-                <button onclick="location.reload();" class="px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-gradient-to-r from-thwart-pink to-thwart-pinkDark hover:from-thwart-pinkLight hover:to-thwart-pink pink-glow transition-all">
-                    <i class="fa-solid fa-rotate mr-2"></i> Generate New Code
+                <button onclick="refreshCodeManually()" class="px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-gradient-to-r from-thwart-pink to-thwart-pinkDark hover:from-thwart-pinkLight hover:to-thwart-pink pink-glow transition-all">
+                    <i class="fa-solid fa-rotate mr-2"></i> Force New Code
                 </button>
             </div>
         </div>
@@ -453,7 +453,7 @@ engine.<span class="text-yellow-300">attach_loop</span>(broadcast_positions, int
             activeTab.classList.remove('border-transparent', 'text-slate-400', 'font-medium');
         }
 
-        // Random code array pool provided
+        // Random code pool
         const accessCodes = [
             "5231", "9185", "4209", "0802", "4563", "1440", "8922", "8173", "9155", "8619",
             "7362", "2582", "7169", "4773", "7425", "4801", "2204", "9962", "6318", "5871",
@@ -1057,9 +1057,67 @@ engine.<span class="text-yellow-300">attach_loop</span>(broadcast_positions, int
             "6648", "3490", "9810", "3532", "0972", "8254", "0349", "7950", "7008", "0212"
         ];
 
-        // Pick one random code from the pool on load
-        const randomCode = accessCodes[Math.floor(Math.random() * accessCodes.length)];
-        document.getElementById('generated-code-display').textContent = randomCode;
+        // 5-Minute Timed Code Management via localStorage
+        function getOrSetTimedCode(forceNew = false) {
+            const storageKey = 'thwart_timed_access_code';
+            const now = new Date().getTime();
+            const storedData = localStorage.getItem(storageKey);
+
+            let activeCode, expiresAt;
+
+            if (storedData && !forceNew) {
+                const parsed = JSON.parse(storedData);
+                if (now < parsed.expiresAt) {
+                    activeCode = parsed.code;
+                    expiresAt = parsed.expiresAt;
+                }
+            }
+
+            if (!activeCode || forceNew) {
+                activeCode = accessCodes[Math.floor(Math.random() * accessCodes.length)];
+                expiresAt = now + (5 * 60 * 1000); // 5 minutes expiration
+                localStorage.setItem(storageKey, JSON.stringify({ code: activeCode, expiresAt: expiresAt }));
+            }
+
+            return { code: activeCode, expiresAt: expiresAt };
+        }
+
+        function refreshCodeManually() {
+            const fresh = getOrSetTimedCode(true);
+            updateDisplay(fresh);
+        }
+
+        function updateDisplay(data) {
+            document.getElementById('generated-code-display').textContent = data.code;
+        }
+
+        // Live Countdown Clock
+        function initCountdown() {
+            const timerDisplay = document.getElementById('timer-countdown');
+            
+            setInterval(() => {
+                const currentData = getOrSetTimedCode(false);
+                const now = new Date().getTime();
+                const distance = currentData.expiresAt - now;
+
+                if (distance < 0) {
+                    // Auto-rotate when expired
+                    const fresh = getOrSetTimedCode(true);
+                    updateDisplay(fresh);
+                    return;
+                }
+
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        // Initialize on load
+        const initialData = getOrSetTimedCode(false);
+        updateDisplay(initialData);
+        initCountdown();
     </script>
 </body>
 </html>
