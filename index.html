@@ -114,6 +114,7 @@
                 <!-- Desktop Navigation Links -->
                 <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
                     <a href="#overview" class="hover:text-thwart-pink transition-colors">Overview</a>
+                    <a href="#showcase" class="hover:text-thwart-pink transition-colors">Showcase</a>
                     <a href="#features" class="hover:text-thwart-pink transition-colors">Features</a>
                     <a href="#code" class="hover:text-thwart-pink transition-colors">API Demo</a>
                     <a href="#getcode" class="hover:text-thwart-pink transition-colors">Get Code</a>
@@ -144,6 +145,7 @@
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-thwart-border px-6 pt-4 pb-6 space-y-4">
             <a href="#overview" class="block text-slate-300 hover:text-thwart-pink py-1">Overview</a>
+            <a href="#showcase" class="block text-slate-300 hover:text-thwart-pink py-1">Showcase</a>
             <a href="#features" class="block text-slate-300 hover:text-thwart-pink py-1">Features</a>
             <a href="#code" class="block text-slate-300 hover:text-thwart-pink py-1">API Sandbox</a>
             <a href="#getcode" class="block text-slate-300 hover:text-thwart-pink py-1">Get Code</a>
@@ -214,6 +216,23 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SHOWCASE SECTION -->
+    <section id="showcase" class="py-20 relative bg-thwart-card/20 border-t border-thwart-border/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                <h2 class="text-xs font-bold text-thwart-pink uppercase tracking-widest font-mono">Live Execution Preview</h2>
+                <h3 class="text-3xl sm:text-4xl font-black tracking-tight">FRAMEWORK IN ACTION</h3>
+                <p class="text-slate-400 text-sm">Visual snapshot showcasing the THWART interface runtime and diagnostic output streams.</p>
+            </div>
+
+            <div class="glass-card p-3 sm:p-4 rounded-2xl border border-thwart-pink/30 pink-glow max-w-5xl mx-auto overflow-hidden">
+                <div class="rounded-xl overflow-hidden border border-thwart-border bg-thwart-bg">
+                    <img src="https://github.com/InfiniteDOJ/THWART/blob/main/image.png?raw=true" alt="THWART Framework Showcase" class="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-500">
+                </div>
             </div>
         </div>
     </section>
@@ -335,7 +354,7 @@ engine.<span class="text-yellow-300">attach_loop</span>(broadcast_positions, int
         </div>
     </section>
 
-    <!-- NEW 'GETCODE' PAGE VIEW SECTION -->
+    <!-- 'GETCODE' PAGE VIEW SECTION -->
     <section id="getcode" class="py-24 relative bg-thwart-card/40 border-t border-thwart-border/40">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
             <div class="space-y-3 max-w-xl mx-auto">
@@ -344,7 +363,6 @@ engine.<span class="text-yellow-300">attach_loop</span>(broadcast_positions, int
                 <p class="text-slate-400 text-sm">Below is your assigned single set combination code for engine access. Keep this code secure and do not share it.</p>
             </div>
 
-            <!-- Single Code Display Box -->
             <div class="glass-card p-8 rounded-2xl border-2 border-thwart-pink max-w-md mx-auto pink-glow-lg">
                 <div class="text-xs font-mono text-slate-400 uppercase tracking-widest mb-2">Assigned Access Key</div>
                 <div id="generated-code-display" class="text-5xl font-mono font-black tracking-widest text-thwart-pink py-4">
@@ -383,6 +401,7 @@ engine.<span class="text-yellow-300">attach_loop</span>(broadcast_positions, int
                     <h5 class="text-xs font-bold text-white uppercase tracking-wider font-mono mb-4">Resources</h5>
                     <ul class="space-y-2 text-sm text-slate-400">
                         <li><a href="#overview" class="hover:text-thwart-pink transition-colors">Overview</a></li>
+                        <li><a href="#showcase" class="hover:text-thwart-pink transition-colors">Showcase</a></li>
                         <li><a href="#code" class="hover:text-thwart-pink transition-colors">API Sandbox</a></li>
                         <li><a href="#getcode" class="hover:text-thwart-pink transition-colors">Get Code</a></li>
                     </ul>
